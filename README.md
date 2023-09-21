@@ -13,7 +13,7 @@
 ## Installation
 - Clone this repository into local system using:-
 ```js
-git clone 
+git clone https://github.com/varnitagrawal24/Express-HTTP-CRUD-API.git
 ``` 
 - Create **.env** file into the cloned folder and copy this into the file fill your database information into this.
 ```
