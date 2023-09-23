@@ -13,44 +13,63 @@ const insertTodo = async (req, res) => {
   res.status(200).json(output);
 };
 
-const getTodoById = async (req, res) => {
-  const { id } = req.params;
-  const data = await todoModel.findByPk(id);
-  if (data) {
-    res.status(200).json(data);
-  } else {
-    res.status(404).json({
-      message: "not found",
-    });
+const getTodoById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = await todoModel.findByPk(id);
+    if (data) {
+      res.status(200).json(data);
+    } else {
+      const error = new Error("not found");
+      error.statusCode = 404;
+      throw error;
+    }
+  } catch (error) {
+    next(error);
   }
 };
 
-const updateTodo = async (req, res) => {
-  const newTodo = req.body;
-  const id = req.params.id;
-  await todoModel.update(newTodo, {
-    where: {
-      id,
-    },
-  });
-  const data = await todoModel.findByPk(id);
-  if (data) {
-    res.status(200).json(data);
-  } else {
-    res.status(404).json({
-      message: "not found",
+const updateTodo = async (req, res, next) => {
+  try {
+    const newTodo = req.body;
+    const id = req.params.id;
+    await todoModel.update(newTodo, {
+      where: {
+        id,
+      },
     });
+    const data = await todoModel.findByPk(id);
+    if (data) {
+      res.status(200).json(data);
+    } else {
+      const error = new Error("not found");
+      error.statusCode = 404;
+      throw error;
+    }
+  } catch (error) {
+    next(error);
   }
 };
 
-const deleteTodo = async (req, res) => {
-  const idObj = req.body;
-  await todoModel.destroy({
-    where: idObj,
-  });
-  res.status(200).json({
-    message: `Todo Deleted`,
-  });
+const deleteTodo = async (req, res, next) => {
+  try {
+    const idObj = req.body;
+    const data = await todoModel.findByPk(id);
+    if (data) {
+      await todoModel.destroy({
+        where: idObj,
+      });
+      res.status(200).json({
+        message: `Todo Deleted`,
+      });
+    } else {
+      const error = new Error("not found");
+      error.statusCode = 404;
+      throw error;
+    }
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = { getTodos, insertTodo, getTodoById, updateTodo, deleteTodo };
