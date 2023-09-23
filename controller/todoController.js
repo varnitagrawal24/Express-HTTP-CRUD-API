@@ -53,8 +53,8 @@ const updateTodo = async (req, res, next) => {
 
 const deleteTodo = async (req, res, next) => {
   try {
-    const idObj = req.body;
-    const data = await todoModel.findByPk(id);
+    const idObj = req.params;
+    const data = await todoModel.findByPk(idObj.id);
     if (data) {
       await todoModel.destroy({
         where: idObj,

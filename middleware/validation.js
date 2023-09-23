@@ -9,7 +9,6 @@ const validateSchema = {
   }),
   update_todo: yup.object({
     body: yup.object({
-      id: yup.number().required(),
       text: yup.string().required(),
       isCompleted: yup.boolean().required(),
     }),
